@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>CODECLAUSE TASK 2 Contact Form With captcha</title>
+</head>
+
+<body>
+    <style>
+        .form {
+            margin-top: 10%;
+        }
+
+        body {
+            background: #6d6fed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #contact-form {
+            width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #9b9df1;
+            border-radius: 20px;
+            color: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input,
+        textarea {
+            min-width: 96%;
+            max-width: 96%;
+            width: 96%;
+            max-height: 100px;
+            min-height: 20px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border:none;
+            border-radius: 10px;
+        }
+
+        .button{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button button {
+            font-weight: 600;
+            font-size: 18px;
+            letter-spacing: 1px;
+            background-color: #6d6fd7;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            transition: all .3s ease-in-out;
+            color: #fff;
+        }
+
+
+        button:hover {
+            background-color: #8486ed;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+
+        #captcha-text {
+            color: #272727;
+            margin: 10px;
+            padding: 10px;
+            letter-spacing: 2px;
+            background-color: #cecece;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        @media screen and (max-width: 555px) {
+            .form {
+                transform: scale(0.6);
+            }
+        }
+    </style>
+    <div class="form">
+        <form id="contact-form">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="captcha">Captcha:</label>
+                <input type="text" id="captcha" name="captcha" required>
+                <span id="captcha-text"></span>
+            </div>
+            
+            <div class="button">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        window.onload = function () {
+            generateCaptcha();
+        };
+
+        function generateCaptcha() {
+            const characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            let captcha = "";
+            for (let i = 0; i < 6; i++) {
+                captcha += characters[Math.floor(Math.random() * characters.length)];
+            }
+            document.querySelector("#captcha-text").innerHTML = captcha;
+        }
+
+        document.querySelector("#contact-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const enteredCaptcha = document.querySelector("#captcha").value;
+            const generatedCaptcha = document.querySelector("#captcha-text").innerHTML;
+            if (enteredCaptcha !== generatedCaptcha) {
+                alert("Incorrect captcha. Please try again.");
+                generateCaptcha();
+            } else {
+                alert("Form submitted successfully!");
+            }
+        });
+
+    </script>
+</body>
+
+</html>
